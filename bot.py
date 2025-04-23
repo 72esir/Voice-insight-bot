@@ -1,16 +1,19 @@
 import asyncio
 import logging
-from aiogram import Bot, Dispatcher, types
-from aiogram.filters.command import Command
+from aiogram import Bot, Dispatcher
+from dotenv import load_dotenv
+import os
 
 from handlers import start_handler
 
 logging.basicConfig(level=logging.INFO)
 
-API_TOKEN="7637384511:AAF3hQYWV0g1cOfHRwDEixHr-K-2BI__tgw"
+load_dotenv()
+API_TOKEN = os.getenv("API_TOKEN")
 
 async def main():
-    bot = Bot(token=API_TOKEN)
+    if API_TOKEN:
+        bot = Bot(API_TOKEN)
     dp = Dispatcher()
 
     dp.include_router(start_handler.router)

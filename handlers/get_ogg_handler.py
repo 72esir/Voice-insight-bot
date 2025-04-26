@@ -17,6 +17,6 @@ async def get_voice_answ(message: Message, bot: Bot):
         print(resp)
 
     await message.answer(
-        resp,
+        f"Транскрибация аудио: \n{transcribation}\n\nАнализ: \n{resp}",
         parse_mode=ParseMode.MARKDOWN
     )

@@ -2,12 +2,13 @@ import os
 import requests
 from dotenv import load_dotenv
 
-
 load_dotenv()
+
+"""Requests to SpeechKit"""
 FOLDER_ID = os.getenv("FOLDER_ID")
 API_KEY = os.getenv("API_KEY")
 
-def send_req(file_name) -> str:
+def send_req_to_kit(file_name) -> str:
     headers = {
         'Authorization': f'Api-Key {API_KEY}',
         'Content-Type': 'application/x-www-form-urlencoded',

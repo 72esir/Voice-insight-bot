@@ -20,7 +20,8 @@ def send_req_to_DS(prompt) -> str:
     data = {
         "model": "deepseek/deepseek-r1",
         "messages": [{"role": "user", "content": prompt}],
-        "stream": True
+        "stream": True,
+        "max_tokens": 1000
     }
 
     with requests.post(
@@ -29,6 +30,7 @@ def send_req_to_DS(prompt) -> str:
         json=data,
         stream=True
     ) as response:
+        print(response)
         if response.status_code != 200:
             print("Ошибка API:", response.status_code)
             return ""

@@ -2,6 +2,8 @@ from aiogram import Bot
 import os
 from aiogram.types.voice import Voice
 
+from processing_responses.converting_audio import convert_to_ogg
+
 from my_requests.request_to_speech_kit import send_req_to_kit
 from my_requests.request_for_get_long_ogg_tr import get_long_ogg_tr
 from my_requests.request_to_post_file_on_bucket import post_file
@@ -18,18 +20,18 @@ async def download_audio(bot: Bot, file_name: str, file_id: str):
         print()
         await bot.download_file(file_path, full_path)
 
-async def processing_short_ogg(voice: Voice, bot: Bot, file_name: str, file_id: str) -> str:
-    if voice:
-        await download_audio(bot, file_name, file_id)
-        transcribation = send_req_to_kit(file_name)
+async def processing_short_ogg(bot: Bot, file_name: str, file_id: str) -> str:
+    await download_audio(bot, file_name, file_id)
+    transcribation = send_req_to_kit(file_name)
 
     return transcribation
 
-async def processing_long_ogg(voice: Voice, bot: Bot, file_name: str, file_id: str) -> str:
-    if voice:
-        print(file_name)
-        await download_audio(bot, file_name, file_id)
-        post_file(file_name)
-        transcribation = get_long_ogg_tr(file_name)
+async def processing_long_ogg(bot: Bot, file_name: str, file_id: str) -> str:
+    print(file_name)
+    await download_audio(bot, file_name, file_id)
+    new_name = convert_to_ogg(file_name, "audio/mpeg")
+    print("from proc audio" + new_name)
+    post_file(new_name)
+    transcribation = get_long_ogg_tr(new_name)
 
     return transcribation

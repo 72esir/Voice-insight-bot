@@ -1,0 +1,17 @@
+from os import path
+from pydub import AudioSegment
+import sys
+
+def convert_to_ogg(file_name: str, type) -> str:
+    src = "downloads/" + file_name
+    dst = "downloads/conv_" + file_name.split(".")[0] + ".ogg"
+
+    if type == "mp3":
+        sound = AudioSegment.from_mp3(src)
+        sound.export(dst, format="ogg", codec='libvorbis')
+
+    if type == "wav":
+        sound = AudioSegment.from_wav(src)
+        sound.export(dst, format="wav")
+
+    return dst.split("/")[1]

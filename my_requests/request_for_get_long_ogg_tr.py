@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 def get_long_ogg_tr(file_name: str) -> str:
     load_dotenv()
 
+    print("from tr")
+    print(file_name)
     # Укажите ваш IAM-токен и ссылку на аудиофайл в Object Storage.
     key = os.getenv("API_KEY")
     filelink = f"https://storage.yandexcloud.net/bucket-for-speech-kit/downloads/{file_name}"

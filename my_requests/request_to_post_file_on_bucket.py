@@ -1,6 +1,7 @@
 import boto3
 
 def post_file(file_name: str):
+    print("from posting")
     session = boto3.Session()
     s3 = session.client(
         service_name='s3',
@@ -14,3 +15,4 @@ def post_file(file_name: str):
             Body=file_data,
             StorageClass='COLD'
         )
+    print("file posted")

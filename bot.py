@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 import os
 
-from handlers import start_handler, get_ogg_handler, no_file_message_handler
+from handlers import start_handler, get_ogg_handler, no_file_message_handler, get_mp3_handler
 
 logging.basicConfig(level=logging.INFO)
 
@@ -18,6 +18,7 @@ async def main():
 
     dp.include_router(start_handler.router)
     dp.include_router(get_ogg_handler.router)
+    dp.include_router(get_mp3_handler.router)
     dp.include_router(no_file_message_handler.router)
 
     await bot.delete_webhook(drop_pending_updates=True)

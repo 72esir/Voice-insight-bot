@@ -6,9 +6,9 @@ def convert_to_ogg(file_name: str, type) -> str:
     src = "downloads/" + file_name
     dst = "downloads/conv_" + file_name.split(".")[0] + ".ogg"
 
-    if type == "mp3":
+    if type == "audio/mpeg":
         sound = AudioSegment.from_mp3(src)
-        sound.export(dst, format="ogg", codec='libvorbis')
+        sound.export(dst, format="ogg", codec='libopus')
 
     if type == "wav":
         sound = AudioSegment.from_wav(src)

@@ -29,9 +29,19 @@ async def processing_short_ogg(bot: Bot, file_name: str, file_id: str) -> str:
 async def processing_long_ogg(bot: Bot, file_name: str, file_id: str) -> str:
     print(file_name)
     await download_audio(bot, file_name, file_id)
-    new_name = convert_to_ogg(file_name, "audio/mpeg")
-    print("from proc audio" + new_name)
-    post_file(new_name)
-    transcribation = get_long_ogg_tr(new_name)
+    post_file(file_name)
+    transcribation = get_long_ogg_tr(file_name)
+
+    return transcribation
+
+async def processing_long_mp3(bot: Bot, file_name: str, file_id: str):
+    print(file_name)
+    await download_audio(bot, file_name, file_id)
+
+    file_name = convert_to_ogg(file_name, "audio/mpeg")
+    print("file_name from proc mp3: " + file_name)
+
+    post_file(file_name)
+    transcribation = get_long_ogg_tr(file_name)
 
     return transcribation

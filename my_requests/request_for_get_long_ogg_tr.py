@@ -10,13 +10,12 @@ def get_long_ogg_tr(file_name: str) -> str:
 
     print("from tr")
     print(file_name)
-    # Укажите ваш IAM-токен и ссылку на аудиофайл в Object Storage.
     key = os.getenv("API_KEY")
     filelink = f"https://storage.yandexcloud.net/bucket-for-speech-kit/downloads/{file_name}"
 
-    POST ='https://transcribe.api.cloud.yandex.net/speech/stt/v2/longRunningRecognize'
+    POST = 'https://transcribe.api.cloud.yandex.net/speech/stt/v2/longRunningRecognize'
 
-    body ={
+    body = {
         "config": {
             "specification": {
                 "languageCode": "ru-RU"
@@ -27,36 +26,38 @@ def get_long_ogg_tr(file_name: str) -> str:
         }
     }
 
-    header = {'Authorization': 'Api-Key {}'.format(key)}
+    header = {'Authorization': f'Api-Key {key}'}
 
-    # Отправьте запрос на распознавание.
     req = requests.post(POST, headers=header, json=body)
     data = req.json()
     print(data)
 
-    id = data['id']
+    if 'error' in data:
+        print(f"Ошибка транскрипции: {data['error']['message']}")
+        return ""
 
-    # Запрашивайте на сервере статус операции, пока распознавание не будет завершено.
+    operation_id = data['id']
+
     while True:
-
         time.sleep(1)
-
-        GET = "https://operation.api.cloud.yandex.net/operations/{id}"
-        req = requests.get(GET.format(id=id), headers=header)
+        GET = f"https://operation.api.cloud.yandex.net/operations/{operation_id}"
+        req = requests.get(GET, headers=header)
         req = req.json()
 
-        if req['done']: break
+        if req.get('done'):
+            break
         print("Not ready")
 
-    # Покажите полный ответ сервера в формате JSON.
     print("Response:")
     print(json.dumps(req, ensure_ascii=False, indent=2))
 
-    # Покажите только текст из результатов распознавания.
+    if 'error' in req:
+        print(f"Ошибка в операции: {req['error']['message']}")
+        return ""
+
     text = ""
     print("Text chunks:")
     for chunk in req['response']['chunks']:
-        print(chunk['alternatives'][0]['text'])
-        text = text + (chunk['alternatives'][0]['text']) + " "
+        text += chunk['alternatives'][0]['text'] + " "
 
     return text

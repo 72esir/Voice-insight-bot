@@ -2,8 +2,7 @@ from aiogram import Router, F, Bot
 from aiogram.types import Message, ContentType
 from aiogram.enums import ParseMode
 
-from processing_responses.converting_audio import convert_to_ogg
-from processing_responses.processing_audio import processing_short_ogg, processing_long_ogg
+from processing_responses.processing_audio import processing_long_mp3
 from processing_responses.processing_transcribation import processing_transcribation
 
 router = Router()
@@ -17,15 +16,15 @@ async def send_answ_on_mp3(message: Message, bot: Bot):
 
         if message.audio.mime_type == "audio/mpeg":
             if mp3.duration < 30:
-                transcribation = await processing_short_ogg(bot, file_name, file_id)
+                transcribation = await processing_long_mp3(bot, file_name, file_id)
                 print(transcribation)
                 resp: str = await processing_transcribation(transcribation)
                 print(resp)
             else:
-                transcribation = await processing_long_ogg(bot, file_name, file_id)
+                transcribation = await processing_long_mp3(bot, file_name, file_id)
                 print(transcribation)
                 resp: str = await processing_transcribation(transcribation)
-                print(resp)
+                print("resp = " + resp)
 
         await message.answer(
             f"Транскрибация аудио: \n{transcribation}\n\nАнализ: \n{resp}",

@@ -1,5 +1,5 @@
 from aiogram import Router, F, Bot
-from aiogram.types import Message, ContentType
+from aiogram.types import Message
 from aiogram.enums import ParseMode
 
 from processing_responses.processing_audio import processing_wav

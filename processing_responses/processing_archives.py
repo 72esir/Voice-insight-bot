@@ -10,6 +10,11 @@ async def processing_archive(bot: Bot, arc_name: str, file_id: str, arc_type: st
     if processed_arc_type:
         file_name = await extract_arc(bot, arc_name, file_id, processed_arc_type)
 
+    if file_name == ">1":
+        return ">1"
+    elif file_name == "=0":
+        return "=0"
+
     type = file_name.split(".")[1]
     if type == "ogg":
         post_file(file_name)
@@ -40,10 +45,12 @@ async def extract_arc(bot: Bot, arc_name: str, file_id: str, arc_type: str) -> s
             files_list = zip_ref.namelist()
             if len(files_list) > 1:
                 #вывести сообщение о том что много файлов в апхиве
-                pass
+                return ">1"
+
             elif len(files_list) == 0:
                 #вывести сообщение что нет файлов в архиве
-                pass
+                return "=0"
+
             else:
                 file_name = files_list[0]
 
@@ -54,10 +61,12 @@ async def extract_arc(bot: Bot, arc_name: str, file_id: str, arc_type: str) -> s
             files_list = tar.getnames()
             if len(files_list) > 1:
                 #вывести сообщение о том что много файлов в апхиве
-                pass
+                return ">1"
+
             elif len(files_list) == 0:
                 #вывести сообщение что нет файлов в архиве
-                pass
+                return "=0"
+
             else:
                 file_name = files_list[0]
 
@@ -67,10 +76,12 @@ async def extract_arc(bot: Bot, arc_name: str, file_id: str, arc_type: str) -> s
             files_list = z.getnames()
             if len(files_list) > 1:
                 #вывести сообщение о том что много файлов в апхиве
-                pass
+                return ">1"
+
             elif len(files_list) == 0:
                 #вывести сообщение что нет файлов в архиве
-                pass
+                return "=0"
+
             else:
                 file_name = files_list[0]
 

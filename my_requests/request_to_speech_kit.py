@@ -24,7 +24,7 @@ def send_req_to_kit(file_name) -> str:
 
     os.remove(f'downloads/{file_name}')
 
-    response = requests.post('https://stt.api.cloud.yandex.net/speech/v1/stt:recognize', params=params, headers=headers, data=data)
+    response = requests.post('https://stt.api.cloud.yandex.net/speech/v1/stt:recognize', params=params, headers=headers, data=data, timeout=90)
     if response.status_code == 200:
         response_json = response.json()
         return response_json.get('result', 'Ключ "result" не найден')

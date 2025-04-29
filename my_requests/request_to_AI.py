@@ -20,15 +20,18 @@ def send_req_to_DS(prompt) -> str:
     data = {
         "model": "deepseek/deepseek-r1",
         "messages": [{"role": "user", "content": prompt}],
-        "stream": True
+        "stream": True,
+        "max_tokens": 1000
     }
 
     with requests.post(
         "https://openrouter.ai/api/v1/chat/completions",
         headers=headers,
         json=data,
-        stream=True
+        stream=True,
+        timeout=90
     ) as response:
+        print(response)
         if response.status_code != 200:
             print("Ошибка API:", response.status_code)
             return ""

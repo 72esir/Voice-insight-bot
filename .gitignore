@@ -1,1 +1,5 @@
 ﻿.env
+venv
+handlers/__pycache__
+my_requests/__pycache__
+processing_responses/__pycache__

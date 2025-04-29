@@ -8,19 +8,21 @@ from processing_responses.processing_transcribation import processing_transcriba
 router = Router()
 
 @router.message(F.voice)
-async def get_voice_answ(message: Message, bot: Bot):
+async def send_answ_on_voice(message: Message, bot: Bot):
+    print("send_answ_on_voice")
     voice = message.voice
     if voice:
+        print(voice.mime_type)
         file_id = voice.file_id
         file_name = f"voice_{file_id}.ogg"
 
         if voice.duration < 30:
-            transcribation = await processing_short_ogg(voice, bot, file_name, file_id)
+            transcribation = await processing_short_ogg(bot, file_name, file_id)
             print(transcribation)
             resp: str = await processing_transcribation(transcribation)
             print(resp)
         else:
-            transcribation = await processing_long_ogg(voice, bot, file_name, file_id)
+            transcribation = await processing_long_ogg(bot, file_name, file_id)
             print(transcribation)
             resp: str = await processing_transcribation(transcribation)
             print(resp)

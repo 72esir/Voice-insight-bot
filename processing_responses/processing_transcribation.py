@@ -1,6 +1,7 @@
 from my_requests.request_to_AI import send_req_to_DS
 
 async def processing_transcribation(transcribation) -> str:
+    print("from proc tr")
     prompt = ("You are an expert in speech analysis and semantic linguistics."
         " Analyze the following transcription of speech in Russian. Your task is to briefly but essentially describe:"
         "The main idea (what exactly the person is saying, without general words);"
@@ -14,5 +15,5 @@ async def processing_transcribation(transcribation) -> str:
 
     final_prompt = f"{prompt} Here is the transcription: {transcribation}"
     resp = send_req_to_DS(final_prompt)
-
+    print("end processing_transcribation")
     return resp

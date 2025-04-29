@@ -10,8 +10,9 @@ def convert_to_ogg(file_name: str, type) -> str:
         sound = AudioSegment.from_mp3(src)
         sound.export(dst, format="ogg", codec='libopus')
 
-    if type == "wav":
+    if type == "audio/vnd.wave":
         sound = AudioSegment.from_wav(src)
-        sound.export(dst, format="wav")
+        sound.export(dst, format="ogg",  codec="libopus")
 
+    print("dst = " + dst.split("/")[1])
     return dst.split("/")[1]

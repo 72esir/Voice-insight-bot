@@ -9,8 +9,10 @@ router = Router()
 
 @router.message(F.voice)
 async def send_answ_on_voice(message: Message, bot: Bot):
+    print("send_answ_on_voice")
     voice = message.voice
     if voice:
+        print(voice.mime_type)
         file_id = voice.file_id
         file_name = f"voice_{file_id}.ogg"
 

@@ -28,7 +28,8 @@ def send_req_to_DS(prompt) -> str:
         "https://openrouter.ai/api/v1/chat/completions",
         headers=headers,
         json=data,
-        stream=True
+        stream=True,
+        timeout=90
     ) as response:
         print(response)
         if response.status_code != 200:

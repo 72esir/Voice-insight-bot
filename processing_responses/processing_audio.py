@@ -45,3 +45,14 @@ async def processing_long_mp3(bot: Bot, file_name: str, file_id: str):
     transcribation = get_long_ogg_tr(file_name)
 
     return transcribation
+
+async def processing_wav(bot: Bot, file_name: str, file_id: str):
+    print(file_name)
+    await download_audio(bot, file_name, file_id)
+
+    file_name = convert_to_ogg(file_name, "audio/vnd.wave")
+
+    post_file(file_name)
+    transcribation = get_long_ogg_tr(file_name)
+
+    return transcribation

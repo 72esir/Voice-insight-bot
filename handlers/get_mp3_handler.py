@@ -7,14 +7,15 @@ from processing_responses.processing_transcribation import processing_transcriba
 
 router = Router()
 
-@router.message(F.content_type.in_({ContentType.AUDIO, ContentType.DOCUMENT}))
+@router.message(F.content_type == ContentType.AUDIO)
 async def send_answ_on_mp3(message: Message, bot: Bot):
+    print("send_answ_on_mp3")
     mp3 = message.audio
     if message.audio and mp3:
         file_id = mp3.file_id
-        file_name = f"voice_{file_id}.ogg"
+        file_name = mp3.file_name
 
-        if message.audio.mime_type == "audio/mpeg":
+        if mp3.mime_type == "audio/mpeg" and file_name:
             if mp3.duration < 30:
                 transcribation = await processing_long_mp3(bot, file_name, file_id)
                 print(transcribation)
